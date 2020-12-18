@@ -34,7 +34,7 @@ def upload():
     # file1 = request.files['file']
     # fileStream = file1.stream.read()
     # doc = fitz.open(stream=fileStream, filetype='pdf')
-    print(os.getcwd())
+    print(os.listdir())
     # doc.save('/tmp/test.pdf')
     # return send_file('tmp/test.pdf')
     return {}
