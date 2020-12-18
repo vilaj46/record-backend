@@ -28,14 +28,14 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    upload_data = upload_route(request.files['file'])
-    upload_data_keys = upload_data.keys()
+    # upload_data = upload_route(request.files['file'])
+    # upload_data_keys = upload_data.keys()
 
     file1 = request.files['file']
     fileStream = file1.stream.read()
     doc = fitz.open(stream=fileStream, filetype='pdf')
     doc.save('/tmp/test.pdf')
-    return send_file('/tmp/test.pdf')
+    return send_file('./tmp/test.pdf')
 # if len(upload_data_keys) == 0:
 #     return {}
 # else:
