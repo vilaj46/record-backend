@@ -10,7 +10,7 @@ from routes.post_toc_route import post_toc_route
 from routes.delete_toc_entry_route import delete_toc_entry_route
 from routes.update_toc_entry_route import update_toc_entry_route
 
-from classes.File import FILE
+# from classes.File import FILE
 
 app = Flask(__name__, instance_relative_config=True)
 CORS(app, resources={r"/*": {"origins": "*"}})
