@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, send_file
 from flask_cors import CORS
 import fitz
+import tempfile
 
 
 from routes.upload_route import upload_route
@@ -33,8 +34,7 @@ def upload():
     file1 = request.files['file']
     fileStream = file1.stream.read()
     doc = fitz.open(stream=fileStream, filetype='pdf')
-    doc.save('%s/test.pdf' % (UPLOAD_FOLDER))
-
+    doc.save('/tmp.pdf')
     return send_file('./uploads/test.pdf')
 # if len(upload_data_keys) == 0:
 #     return {}
