@@ -26,6 +26,11 @@ GOOGLE_CLIENT_SECRET = "RUiHOs86D9gYPzjMzeEVYIs1"
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 
+@app.route('/', methods=['GET'])
+def test():
+    return 'Hello!'
+
+
 @app.route('/upload', methods=['POST'])
 def upload():
     # upload_data = upload_route(request.files['file'])
