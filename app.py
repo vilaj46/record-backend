@@ -1,26 +1,47 @@
 import os
-from flask import Flask, request
+from flask import Flask, request, send_file
+from flask_cors import CORS
+import fitz
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+
 
 from routes.upload_route import upload_route
 from routes.get_toc_route import get_toc_route
-from routes.post_toc_route import post_toc_route 
+from routes.post_toc_route import post_toc_route
 from routes.delete_toc_entry_route import delete_toc_entry_route
 from routes.update_toc_entry_route import update_toc_entry_route
 
 from classes.File import FILE
 
 app = Flask(__name__, instance_relative_config=True)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+UPLOAD_FOLDER = './uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+GOOGLE_CLIENT_ID = "776986650571-f3edf6f5qlucfe15kigutv12oqnakb6q.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "RUiHOs86D9gYPzjMzeEVYIs1"
+SCOPES = ['https://www.googleapis.com/auth/drive.file']
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # Figure out what this does
-    upload_data = upload_route()
-    upload_data_keys = upload_data.keys()
+    # upload_data = upload_route(request.files['file'])
+    # upload_data_keys = upload_data.keys()
 
-    if len(upload_data_keys) == 0:
-        return {}
-    else:
-        return upload_data
+    file1 = request.files['file']
+    fileStream = file1.stream.read()
+    doc = fitz.open(stream=fileStream, filetype='pdf')
+    doc.save('%s/test.pdf' % (UPLOAD_FOLDER))
+
+    return send_file('./uploads/test.pdf')
+# if len(upload_data_keys) == 0:
+#     return {}
+# else:
+#     return upload_data
+
 
 @app.route('/toc', methods=['GET', 'POST'])
 def toc():
@@ -48,8 +69,9 @@ def toc_id_number(id_number):
     if request.method == 'DELETE':
         deleted_entry = delete_toc_entry_route(id_number, request)
         return deleted_entry
-    else: # PUT
+    else:  # PUT
         updated_entry = update_toc_entry_route(id_number, request)
         return updated_entry
+
 
 app.run(host='0.0.0.0', port=8080, debug=True)

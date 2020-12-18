@@ -1,7 +1,9 @@
 import fitz
 
-def get_bad_pages(file_path):
-    doc = fitz.open(file_path)
+# def get_bad_pages(file_path):
+
+
+def get_bad_pages(doc):
     page_count = doc.pageCount
 
     bad_pages = []
