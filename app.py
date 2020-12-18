@@ -2,8 +2,6 @@ import os
 from flask import Flask, request, send_file
 from flask_cors import CORS
 import fitz
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
 
 
 from routes.upload_route import upload_route
@@ -26,9 +24,9 @@ GOOGLE_CLIENT_SECRET = "RUiHOs86D9gYPzjMzeEVYIs1"
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 
-@app.route('/', methods=['GET'])
-def test():
-    return 'Hello!'
+@app.route('/')
+def index():
+    return 'Index Page'
 
 
 @app.route('/upload', methods=['POST'])
@@ -79,4 +77,6 @@ def toc_id_number(id_number):
         return updated_entry
 
 
-app.run(host='0.0.0.0', port=8080, debug=True)
+# app.run(host='localhost', port=8080, debug=True)
+if __name__ == '__main__':
+    app.run()
