@@ -34,7 +34,7 @@ def upload():
     file1 = request.files['file']
     fileStream = file1.stream.read()
     doc = fitz.open(stream=fileStream, filetype='pdf')
-    doc.save('/tmp.pdf')
+    doc.save('/tmp11.pdf')
     return send_file('./uploads/test.pdf')
 # if len(upload_data_keys) == 0:
 #     return {}
