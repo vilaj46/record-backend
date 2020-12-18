@@ -31,12 +31,13 @@ def upload():
     # upload_data = upload_route(request.files['file'])
     # upload_data_keys = upload_data.keys()
 
-    file1 = request.files['file']
-    fileStream = file1.stream.read()
-    doc = fitz.open(stream=fileStream, filetype='pdf')
-    print(Dir.entries(Dir.pwd.to_s + ("/tmp")))
-    doc.save('/tmp/test.pdf')
-    return send_file('tmp/test.pdf')
+    # file1 = request.files['file']
+    # fileStream = file1.stream.read()
+    # doc = fitz.open(stream=fileStream, filetype='pdf')
+    print(os.getcwd())
+    # doc.save('/tmp/test.pdf')
+    # return send_file('tmp/test.pdf')
+    return {}
 # if len(upload_data_keys) == 0:
 #     return {}
 # else:
