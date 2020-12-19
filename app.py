@@ -35,7 +35,7 @@ def upload():
     fileStream = file1.stream.read()
     doc = fitz.open(stream=fileStream, filetype='pdf')
     doc.save('/tmp/test.pdf')
-    print(os.listdir())
+    print(os.path.exists(os.getcwd() + './tmp'))
     # return send_file('tmp/test.pdf')
     return {}
 # if len(upload_data_keys) == 0:
