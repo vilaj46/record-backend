@@ -37,9 +37,7 @@ def upload():
     cwd = os.getcwd()
     doc.save('/tmp/test.pdf')
 
-    for root, dirs, files in os.walk("."):
-        for filename in files:
-            print(filename)
+    print(os.path.exists('/tmp/test.pdf'))
 
     # return send_file('tmp/test.pdf')
     return {}
