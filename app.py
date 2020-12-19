@@ -35,7 +35,7 @@ def upload():
     fileStream = file1.stream.read()
     doc = fitz.open(stream=fileStream, filetype='pdf')
     cwd = os.getcwd()
-    doc.save('./tmp/test.pdf')
+    doc.save('/tmp/test.pdf')
 
     for root, dirs, files in os.walk("."):
         for filename in files:
