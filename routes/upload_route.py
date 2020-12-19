@@ -18,16 +18,15 @@ def upload_route(fileStorage):
         doc = fitz.open(stream=fileStream, filetype='pdf')
 
         file_name = secure_filename(file_name)
-        bad_pages = get_bad_pages(doc)
+        # bad_pages = get_bad_pages(doc)
 
         FILE.file_name = file_name
-        FILE.bad_pages = bad_pages
+        # FILE.bad_pages = bad_pages
         FILE.doc = doc
 
         return {
             'file_name': file_name,
-            'bad_pages': bad_pages,
-            'stream': fileStream
+            # 'bad_pages': bad_pages,
         }
     else:
         return {}

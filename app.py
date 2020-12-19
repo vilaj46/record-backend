@@ -28,20 +28,19 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # upload_data = upload_route(request.files['file'])
-    # upload_data_keys = upload_data.keys()
+    upload_data = upload_route(request.files['file'])
+    upload_data_keys = upload_data.keys()
 
-    file1 = request.files['file']
-    fileStream = file1.stream.read()
-    doc = fitz.open(stream=fileStream, filetype='pdf')
+    # file1 = request.files['file']
+    # fileStream = file1.stream.read()
+    # doc = fitz.open(stream=fileStream, filetype='pdf')
 
-    doc.save('/tmp/test.pdf')
-    return send_file('/tmp/test.pdf')
-    # return {}
-# if len(upload_data_keys) == 0:
-#     return {}
-# else:
-#     return upload_data
+    # doc.save('/tmp/test.pdf')
+    # return send_file('/tmp/test.pdf')
+    if len(upload_data_keys) == 0:
+        return {}
+    else:
+        return upload_data
 
 
 @app.route('/toc', methods=['GET', 'POST'])
@@ -75,6 +74,6 @@ def toc_id_number(id_number):
         return updated_entry
 
 
-# app.run(host='localhost', port=8080, debug=True)
-if __name__ == '__main__':
-    app.run()
+app.run(host='localhost', port=8080, debug=True)
+# if __name__ == '__main__':
+#     app.run()
