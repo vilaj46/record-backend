@@ -5,13 +5,14 @@ import fitz
 import tempfile
 
 
+from routes.headers import headers_route
 from routes.upload_route import upload_route
 from routes.get_toc_route import get_toc_route
 from routes.post_toc_route import post_toc_route
 from routes.delete_toc_entry_route import delete_toc_entry_route
 from routes.update_toc_entry_route import update_toc_entry_route
 
-# from classes.File import FILE
+from classes.File import FILE
 
 app = Flask(__name__, instance_relative_config=True)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -38,7 +39,7 @@ def upload():
     # doc.save('/tmp/test.pdf')
     # return send_file('/tmp/test.pdf')
     if len(upload_data_keys) == 0:
-        return {}
+        return 'Bad request!', 400
     else:
         return upload_data
 
@@ -72,6 +73,17 @@ def toc_id_number(id_number):
     else:  # PUT
         updated_entry = update_toc_entry_route(id_number, request)
         return updated_entry
+
+
+@app.route('/headers', methods=['POST'])
+def headers():
+    headers_route(request.form)
+
+    doc = FILE.doc
+    # doc = fitz.open(stream=fileStream, filetype='pdf')
+
+    doc.save('./tmp/test.pdf')
+    return send_file('./tmp/test.pdf')
 
 
 app.run(host='localhost', port=8080, debug=True)
