@@ -1,6 +1,14 @@
 import json
+import re
+
 from classes.File import FILE
 from classes.Header import Header
+
+""" 
+Have text included.
+Starting page number.
+Fix any errors.
+"""
 
 
 def headers_route(form):
@@ -8,26 +16,47 @@ def headers_route(form):
     position = form['position']
     rangeValue = form['rangeValue']
     titlesList = form['titlesList']
+    headerText = form['headerText']
 
     # Handle the page numbers first.
-    if rangeValue != '' and rangeValue != 'None':
+    if rangeValue == 'Pages From':
         pageRangeToJson = json.loads(pageRange)
-        startingPageNumber = pageRangeToJson['start']
-        endingPageNumber = pageRangeToJson['end']
-
-    # Set numbers on all pages.
-    all_pages()
-    # Set numbers on specific page range.
+        startingPageNumber = int(pageRangeToJson['start'])
+        endingPageNumber = int(pageRangeToJson['end'])
+        specific_pages(startingPageNumber, endingPageNumber)
+    elif rangeValue == 'All':
+        all_pages(headerText)
 
     return {}
 
 
-def all_pages():
+def create_number_with_format(number, form):
+    pattern = r'<<d+>>'
+    double_back_arrow = r'<<'
+    double_front_arrow = r'>>'
+    replacement = '<<%s>>' % number
+    new_number = re.sub(pattern, replacement, form)
+    new_number = re.sub(double_back_arrow, '', new_number)
+    new_number = re.sub(double_front_arrow, '', new_number)
+    return new_number
+
+
+def specific_pages(start, end):
     doc = FILE.doc
-    for i in range(0, doc.pageCount):
+    for i in range(start, end + 1):
         page = doc.loadPage(i)
         curr_page_number = str(i + 1)
         header = Header(curr_page_number)
-        page.insertText((100, header.y), curr_page_number)
+        page.insertText((header.x, header.y), curr_page_number,
+                        fontsize=12, fontname='Times-Bold')
 
-    # doc.save()
+
+def all_pages(headerText):
+    doc = FILE.doc
+    for i in range(0, doc.pageCount):
+        page = doc.loadPage(i)
+        # curr_page_number = str(i + 1)
+        curr_page_number = create_number_with_format(str(i + 1), headerText)
+        header = Header(curr_page_number)
+        page.insertText((header.x, header.y), curr_page_number,
+                        fontsize=12, fontname='Times-Bold')
