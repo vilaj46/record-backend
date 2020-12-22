@@ -24,6 +24,8 @@ def upload_route(fileStorage):
         # FILE.bad_pages = bad_pages
         FILE.doc = doc
 
+        print(doc)
+
         return {
             'file_name': file_name,
             # 'bad_pages': bad_pages,

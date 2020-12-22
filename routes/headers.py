@@ -54,7 +54,7 @@ def specific_pages(start, end):
 def all_pages(headerText, startNumber):
     doc = FILE.doc
     startNumber = int(startNumber)
-    print(FILE.doc)
+    # print(FILE.doc)
     # for i in range(0, doc.pageCount):
     #     print(i)
     #     print(FILE.doc)

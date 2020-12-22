@@ -80,10 +80,10 @@ def headers():
     headers_route(request.form)
 
     doc = FILE.doc
-    # doc = fitz.open(stream=fileStream, filetype='pdf')
 
-    doc.save('/tmp/test.pdf')
-    return send_file('/tmp/test.pdf')
+    return {}
+    # doc.save('/tmp/test.pdf')
+    # return send_file('/tmp/test.pdf')
     # doc.save('./tmp/test.pdf')
     # return send_file('./tmp/test.pdf')
 
