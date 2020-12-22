@@ -82,8 +82,10 @@ def headers():
     doc = FILE.doc
     # doc = fitz.open(stream=fileStream, filetype='pdf')
 
-    doc.save('./tmp/test.pdf')
-    return send_file('./tmp/test.pdf')
+    doc.save('/tmp/test.pdf')
+    return send_file('/tmp/test.pdf')
+    # doc.save('./tmp/test.pdf')
+    # return send_file('./tmp/test.pdf')
 
 
 # app.run(host='localhost', port=8080, debug=True)

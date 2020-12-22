@@ -54,13 +54,13 @@ def specific_pages(start, end):
 def all_pages(headerText, startNumber):
     doc = FILE.doc
     print(doc)
-    # startNumber = int(startNumber)
+    startNumber = int(startNumber)
 
-    # for i in range(0, doc.pageCount):
-    #     page = doc.loadPage(i)
-    #     curr_page_number = create_number_with_format(
-    #         str(startNumber), headerText)
-    #     header = Header(curr_page_number)
-    #     page.insertText((header.x, header.y), curr_page_number,
-    #                     fontsize=12, fontname='Times-Bold')
-    #     startNumber = startNumber + 1
+    for i in range(0, doc.pageCount):
+        page = doc.loadPage(i)
+        curr_page_number = create_number_with_format(
+            str(startNumber), headerText)
+        header = Header(curr_page_number)
+        page.insertText((header.x, header.y), curr_page_number,
+                        fontsize=12, fontname='Times-Bold')
+        startNumber = startNumber + 1
