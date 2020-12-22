@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 import fitz
 from utils.upload_route.get_bad_pages import get_bad_pages
 
-from classes.File import FILE
+# from classes.File import FILE
 
 ALLOWED_EXTENSIONS = ['pdf']
 

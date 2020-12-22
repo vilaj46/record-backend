@@ -1,6 +1,7 @@
-from classes.File import FILE
+# from classes.File import FILE
 
 from utils.misc.is_number import is_number
+
 
 def update_toc_entry_route(id_number, request):
     new_entries = FILE.entries
@@ -11,7 +12,8 @@ def update_toc_entry_route(id_number, request):
         potential_index = int(request.form['index'])
         potential_entry = new_entries[potential_index]
     except:
-        potential_entry = {'id_number': -1} # Fake an entry so we fail the if else statement below.
+        # Fake an entry so we fail the if else statement below.
+        potential_entry = {'id_number': -1}
 
     index_of_updated = False
     updated_entry = False
@@ -31,13 +33,14 @@ def update_toc_entry_route(id_number, request):
 
         if key == 'entry':
             new_entries[index_of_updated][key] = value.strip()
-        else: # key is page_number_in_pdf
+        else:  # key is page_number_in_pdf
             page_number_difference = FILE.difference_in_page_numbers
             new_entries[index_of_updated][key] = value.strip()
-            new_entries[index_of_update]['page_number_for_me'] = int(value) + page_number_difference 
+            new_entries[index_of_update]['page_number_for_me'] = int(
+                value) + page_number_difference
 
-        
-        new_entries[index_of_updated] = set_entry_errors(key, new_entries[index_of_updated])       
+        new_entries[index_of_updated] = set_entry_errors(
+            key, new_entries[index_of_updated])
 
         updated_entry = new_entries[index_of_updated]
         FILE.entries = new_entries
@@ -48,14 +51,16 @@ def update_toc_entry_route(id_number, request):
         'updated_entry': updated_entry
     }
 
+
 def set_entry_errors(key, new_entry):
     if key == 'entry':
         entry_text = new_entry['entry']
         entry_text_as_num = is_number(new_entry['entry'])
         if len(entry_text) == 0 or is_number == True:
             new_entry['text_error'] = True
-        else: new_entry['text_error'] = False
-    else: #key == page_num_for_me
+        else:
+            new_entry['text_error'] = False
+    else:  # key == page_num_for_me
         print(key)
         print(new_entry)
         hey = 'hey'
