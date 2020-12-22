@@ -56,7 +56,7 @@ def all_pages(headerText, startNumber):
     startNumber = int(startNumber)
     for i in range(0, doc.pageCount):
         print(i)
-        print(doc)
+        print(FILE.doc)
         # page = doc.loadPage(i)
         # curr_page_number = create_number_with_format(
         #     str(startNumber), headerText)
