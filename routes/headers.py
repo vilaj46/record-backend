@@ -1,7 +1,8 @@
 import json
 import re
+import fitz
 
-from classes.File import FILE
+# from classes.File import FILE
 from classes.Header import Header
 
 """ 
@@ -10,7 +11,7 @@ Fix any errors.
 """
 
 
-def headers_route(form):
+def headers_route(form, tmpPath):
     pageRange = form['pageRange']
     # position = form['position']
     rangeValue = form['rangeValue']
@@ -25,7 +26,7 @@ def headers_route(form):
         endingPageNumber = int(pageRangeToJson['end'])
         specific_pages(startingPageNumber, endingPageNumber)
     elif rangeValue == 'All':
-        all_pages(headerText, startNumber)
+        all_pages(headerText, startNumber, tmpPath)
 
     return {}
 
@@ -42,7 +43,7 @@ def create_number_with_format(number, form):
 
 
 def specific_pages(start, end):
-    doc = FILE.doc
+    # doc = FILE.doc
     for i in range(start, end + 1):
         page = doc.loadPage(i)
         curr_page_number = str(i + 1)
@@ -51,17 +52,18 @@ def specific_pages(start, end):
                         fontsize=12, fontname='Times-Bold')
 
 
-def all_pages(headerText, startNumber):
-    doc = FILE.doc
+def all_pages(headerText, startNumber, tmpPath):
+    # doc = FILE.doc
+    doc = fitz.open(tmpPath)
     startNumber = int(startNumber)
-    # print(FILE.doc)
-    # for i in range(0, doc.pageCount):
-    #     print(i)
-    #     print(FILE.doc)
-    # page = doc.loadPage(i)
-    # curr_page_number = create_number_with_format(
-    #     str(startNumber), headerText)
-    # header = Header(curr_page_number)
-    # page.insertText((header.x, header.y), curr_page_number,
-    #                 fontsize=12, fontname='Times-Bold')
-    # startNumber = startNumber + 1
+
+    for i in range(0, doc.pageCount):
+        page = doc.loadPage(i)
+        curr_page_number = create_number_with_format(
+            str(startNumber), headerText)
+        header = Header(curr_page_number)
+        page.insertText((header.x, header.y), curr_page_number,
+                        fontsize=12, fontname='Times-Bold')
+        startNumber = startNumber + 1
+
+    doc.saveIncr()

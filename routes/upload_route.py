@@ -8,23 +8,23 @@ from classes.File import FILE
 ALLOWED_EXTENSIONS = ['pdf']
 
 
-def upload_route(fileStorage):
+def upload_route(fileStorage, tmpPath):
     file_name = fileStorage.filename
-
     allow_file = allowed_file(file_name)
 
     if allow_file == True:
         fileStream = fileStorage.stream.read()
+
         doc = fitz.open(stream=fileStream, filetype='pdf')
+
+        doc.save(tmpPath)
 
         file_name = secure_filename(file_name)
         # bad_pages = get_bad_pages(doc)
 
-        FILE.file_name = file_name
+        # FILE.file_name = file_name
         # FILE.bad_pages = bad_pages
-        FILE.doc = doc
-
-        print(doc)
+        # FILE.doc = doc
 
         return {
             'file_name': file_name,

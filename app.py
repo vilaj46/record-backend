@@ -21,6 +21,9 @@ UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
+tmp_path = '/tmp/test.pdf'
+# tmp_path = './tmp/test.pdf'
+
 
 @app.route('/')
 def index():
@@ -29,7 +32,7 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    upload_data = upload_route(request.files['file'])
+    upload_data = upload_route(request.files['file'], tmp_path)
     upload_data_keys = upload_data.keys()
 
     # file1 = request.files['file']
@@ -77,15 +80,15 @@ def toc_id_number(id_number):
 
 @app.route('/headers', methods=['POST'])
 def headers():
-    headers_route(request.form)
+    headers_route(request.form, tmp_path)
 
-    doc = FILE.doc
+    # doc = FILE.doc
 
-    return {}
+    # return {}
     # doc.save('/tmp/test.pdf')
     # return send_file('/tmp/test.pdf')
     # doc.save('./tmp/test.pdf')
-    # return send_file('./tmp/test.pdf')
+    return send_file(tmp_path)
 
 
 # app.run(host='localhost', port=8080, debug=True)
