@@ -15,9 +15,16 @@ def headers_route(form, tmpPath):
     pageRange = form['pageRange']
     # position = form['position']
     rangeValue = form['rangeValue']
-    # titlesList = form['titlesList']
+    titlesList = form['titlesList']
     headerText = form['headerText']
     startNumber = form['startingPageNumber']
+
+    titlesListToJson = json.loads(titlesList)
+
+    # Figure out how to combine the titles and the page numbers.
+
+    if len(titlesListToJson) > 0:
+        titles(titlesListToJson, tmpPath)
 
     # Handle the page numbers first.
     if rangeValue == 'Pages From':
@@ -30,6 +37,18 @@ def headers_route(form, tmpPath):
         all_pages(headerText, startNumber, tmpPath)
 
     return {}
+
+
+def titles(titlesList, tmpPath):
+    doc = fitz.open(tmpPath)
+    for title in titlesList:
+        pageNumber = int(title['pageNumber'])
+        page = doc.loadPage(pageNumber - 1)
+        header = Header(title['title'])
+        page.insertText((header.x, header.y),
+                        title['title'], fontsize=12, fontname='Times-Bold')
+
+    doc.saveIncr()
 
 
 def create_number_with_format(number, form):
