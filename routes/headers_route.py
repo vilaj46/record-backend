@@ -24,7 +24,8 @@ def headers_route(form, tmpPath):
         pageRangeToJson = json.loads(pageRange)
         startingPageNumber = int(pageRangeToJson['start'])
         endingPageNumber = int(pageRangeToJson['end'])
-        specific_pages(startingPageNumber, endingPageNumber)
+        specific_pages(startingPageNumber, endingPageNumber,
+                       headerText, startNumber, tmpPath)
     elif rangeValue == 'All':
         all_pages(headerText, startNumber, tmpPath)
 
@@ -42,14 +43,21 @@ def create_number_with_format(number, form):
     return new_number
 
 
-def specific_pages(start, end):
+def specific_pages(start, end, headerText, startNumber, tmpPath):
     # doc = FILE.doc
+    doc = fitz.open(tmpPath)
+    startNumber = int(startNumber)
+
     for i in range(start, end + 1):
-        page = doc.loadPage(i)
-        curr_page_number = str(i + 1)
+        page = doc.loadPage(i - 1)
+        curr_page_number = create_number_with_format(
+            str(startNumber), headerText)
         header = Header(curr_page_number)
         page.insertText((header.x, header.y), curr_page_number,
                         fontsize=12, fontname='Times-Bold')
+        startNumber = startNumber + 1
+
+    doc.saveIncr()
 
 
 def all_pages(headerText, startNumber, tmpPath):

@@ -5,7 +5,7 @@ from flask_cors import CORS
 # import tempfile
 
 
-from routes.headers import headers_route
+from routes.headers_route import headers_route
 from routes.upload_route import upload_route
 from routes.get_toc_route import get_toc_route
 from routes.post_toc_route import post_toc_route

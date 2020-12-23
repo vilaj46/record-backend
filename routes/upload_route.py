@@ -27,7 +27,8 @@ def upload_route(fileStorage, tmpPath):
         # FILE.doc = doc
 
         return {
-            'file_name': file_name,
+            'fileName': file_name,
+            'pageCount': doc.pageCount
             # 'bad_pages': bad_pages,
         }
     else:
