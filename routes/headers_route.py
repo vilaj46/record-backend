@@ -1,40 +1,49 @@
-import json
 import re
 import fitz
 
 # from classes.File import FILE
 from classes.Header import Header
-
-""" 
-Starting page number.
-Fix any errors.
-"""
+from utils.header_route.create_headers import create_headers
 
 
 def headers_route(form, tmpPath):
-    pageRange = form['pageRange']
+    # pageRange = form['pageRange']
     # position = form['position']
-    rangeValue = form['rangeValue']
-    titlesList = form['titlesList']
-    headerText = form['headerText']
-    startNumber = form['startingPageNumber']
+    # rangeValue = form['rangeValue']
+    # titlesList = form['titlesList']
+    # headerText = form['headerText']
+    # startNumber = form['startingPageNumber']
 
-    titlesListToJson = json.loads(titlesList)
+    # titlesListToJson = json.loads(titlesList)
+    headers = create_headers(form, tmpPath)
+
+    doc = fitz.open(tmpPath)
+
+    for header in headers:
+        pageNumberInDoc = header.pageNumber
+        page = doc.loadPage(pageNumberInDoc)
+        print(header.lines)
+        for line in header.lines:
+            page.insertText((line['x'], line['y']), line['text'],
+                            fontsize=12, fontname='Times-Bold')
+
+    doc.saveIncr()
+    doc.close()
+
+    # titlesExist = does_title_exist(titlesListToJson)
 
     # Figure out how to combine the titles and the page numbers.
+    # if titlesExist:
+    #     titles(titlesListToJson, tmpPath)
 
-    if len(titlesListToJson) > 0:
-        titles(titlesListToJson, tmpPath)
-
-    # Handle the page numbers first.
-    if rangeValue == 'Pages From':
-        pageRangeToJson = json.loads(pageRange)
-        startingPageNumber = int(pageRangeToJson['start'])
-        endingPageNumber = int(pageRangeToJson['end'])
-        specific_pages(startingPageNumber, endingPageNumber,
-                       headerText, startNumber, tmpPath)
-    elif rangeValue == 'All':
-        all_pages(headerText, startNumber, tmpPath)
+    # if rangeValue == 'Pages From':
+    #     pageRangeToJson = json.loads(pageRange)
+    #     startingPageNumber = int(pageRangeToJson['start'])
+    #     endingPageNumber = int(pageRangeToJson['end'])
+    #     specific_pages(startingPageNumber, endingPageNumber,
+    #                    headerText, startNumber, tmpPath)
+    # elif rangeValue == 'All':
+    #     all_pages(headerText, startNumber, tmpPath)
 
     return {}
 
@@ -94,3 +103,10 @@ def all_pages(headerText, startNumber, tmpPath):
         startNumber = startNumber + 1
 
     doc.saveIncr()
+
+
+def does_title_exist(titles):
+    for title in titles:
+        if len(title['title']) > 0:
+            return True
+    return False

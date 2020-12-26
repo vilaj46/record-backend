@@ -48,15 +48,6 @@ def toc():
         return new_entry
 
 
-# We are on the PUT method.
-# Change page number functionality
-# Error checks fuctionality as well.
-
-# Figure out what we want to return for both
-# PUT and delete. Do we want to have a general entry errors for all of them
-# or a page number errors for all of them. Incorporate the certification page
-# number when calculating the page_number_in_pdf error.
-
 @app.route('/toc/<id_number>', methods=['DELETE', 'PUT'])
 def toc_id_number(id_number):
     if request.method == 'DELETE':
