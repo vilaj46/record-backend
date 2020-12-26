@@ -7,14 +7,6 @@ from utils.header_route.create_headers import create_headers
 
 
 def headers_route(form, tmpPath):
-    # pageRange = form['pageRange']
-    # position = form['position']
-    # rangeValue = form['rangeValue']
-    # titlesList = form['titlesList']
-    # headerText = form['headerText']
-    # startNumber = form['startingPageNumber']
-
-    # titlesListToJson = json.loads(titlesList)
     headers = create_headers(form, tmpPath)
 
     doc = fitz.open(tmpPath)
@@ -22,7 +14,7 @@ def headers_route(form, tmpPath):
     for header in headers:
         pageNumberInDoc = header.pageNumber
         page = doc.loadPage(pageNumberInDoc)
-        print(header.lines)
+
         for line in header.lines:
             page.insertText((line['x'], line['y']), line['text'],
                             fontsize=12, fontname='Times-Bold')

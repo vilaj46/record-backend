@@ -3,8 +3,6 @@ from werkzeug.utils import secure_filename
 import fitz
 from utils.upload_route.get_bad_pages import get_bad_pages
 
-# from classes.File import FILE
-
 ALLOWED_EXTENSIONS = ['pdf']
 
 
@@ -18,19 +16,12 @@ def upload_route(fileStorage, tmpPath):
         doc = fitz.open(stream=fileStream, filetype='pdf')
 
         doc.save(tmpPath)
-        doc.close()
 
         file_name = secure_filename(file_name)
-        # bad_pages = get_bad_pages(doc)
-
-        # FILE.file_name = file_name
-        # FILE.bad_pages = bad_pages
-        # FILE.doc = doc
 
         return {
             'fileName': file_name,
             'pageCount': doc.pageCount
-            # 'bad_pages': bad_pages,
         }
     else:
         return {}
