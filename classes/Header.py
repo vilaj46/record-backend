@@ -7,12 +7,11 @@ The horizontal center would be: 306
 
 
 class Header():
-    def __init__(self, headerText, pageNumber, title):
-        self.pageNumber = pageNumber
+    def __init__(self, headerText, pageNumberText, pageNumberInDoc, title):
+        self.pageNumberText = pageNumberText
+        self.pageNumberInDoc = pageNumberInDoc
         self.headerText = headerText
-        # self.x = self.setX(pageNumber)
-        # self.y = self.setY()
-        self.lines = self.setLines(pageNumber, title)
+        self.lines = self.setLines(pageNumberText, title)
 
     # Set the x position based on the length of the pageNumber
     def setX(self, text):
@@ -25,23 +24,23 @@ class Header():
 
     # Figure out how many lines of pageNumber.
     # Figure out each lines position.
-    def setLines(self, pageNumber, title):
+    def setLines(self, pageNumberText, title):
         lines = []
 
         if title == None:
             # Set only page number.
-            x = self.setX(str(pageNumber))
+            x = self.setX(str(pageNumberText))
 
             pageNumberFormatted = self.create_number_with_format(
-                str(pageNumber + 1), self.headerText)
+                str(pageNumberText), self.headerText)
             line = {'text': pageNumberFormatted, 'x': x, 'y': 33}
             lines.append(line)
         else:
             # Configure page number and title.
             text = title['title']
-            x = self.setX(str(pageNumber))
+            x = self.setX(str(pageNumberText))
             pageNumberFormatted = self.create_number_with_format(
-                str(pageNumber + 1), self.headerText)
+                str(pageNumberText), self.headerText)
             line = {'text': pageNumberFormatted, 'x': x, 'y': 33}
             lines.append(line)
             x = self.setX(text)

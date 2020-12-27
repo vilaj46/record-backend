@@ -12,7 +12,7 @@ def headers_route(form, tmpPath):
     doc = fitz.open(tmpPath)
 
     for header in headers:
-        pageNumberInDoc = header.pageNumber
+        pageNumberInDoc = header.pageNumberInDoc
         page = doc.loadPage(pageNumberInDoc)
 
         for line in header.lines:
@@ -43,8 +43,8 @@ def headers_route(form, tmpPath):
 def titles(titlesList, tmpPath):
     doc = fitz.open(tmpPath)
     for title in titlesList:
-        pageNumber = int(title['pageNumber'])
-        page = doc.loadPage(pageNumber - 1)
+        pageNumber = int(title['pageNumberInDoc'])
+        page = doc.loadPage(pageNumber)
         header = Header(title['title'])
         page.insertText((header.x, header.y),
                         title['title'], fontsize=12, fontname='Times-Bold')
