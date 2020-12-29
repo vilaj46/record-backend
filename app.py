@@ -12,6 +12,8 @@ from routes.post_toc_route import post_toc_route
 from routes.delete_toc_entry_route import delete_toc_entry_route
 from routes.update_toc_entry_route import update_toc_entry_route
 
+from utils.misc.tmpPath import tmpPath
+
 app = Flask(__name__, instance_relative_config=True)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -19,8 +21,8 @@ UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-# tmp_path = '/tmp/test.pdf'
-tmp_path = './tmp/test.pdf'
+# Add 'y' positioning to the headers. Ability to move them at the top or bottom of page.
+# The front end needs fixing too. The headerText should display something else.
 
 
 @app.route('/')
@@ -30,7 +32,7 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    upload_data = upload_route(request.files['file'], tmp_path)
+    upload_data = upload_route(request.files['file'])
     upload_data_keys = upload_data.keys()
     if len(upload_data_keys) == 0:
         return 'Bad request!', 400
@@ -60,8 +62,9 @@ def toc_id_number(id_number):
 
 @app.route('/headers', methods=['POST'])
 def headers():
-    headers_route(request.form, tmp_path)
-    return send_file(tmp_path)
+    path = tmpPath()
+    headers_route(request.form)
+    return send_file(path)
 
 
 app.run(host='localhost', port=8080, debug=True)

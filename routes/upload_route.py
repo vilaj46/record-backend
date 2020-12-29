@@ -1,21 +1,25 @@
 
-from werkzeug.utils import secure_filename
 import fitz
+from werkzeug.utils import secure_filename
+
 from utils.upload_route.get_bad_pages import get_bad_pages
+from utils.misc.tmpPath import tmpPath
 
 ALLOWED_EXTENSIONS = ['pdf']
 
 
-def upload_route(fileStorage, tmpPath):
+def upload_route(fileStorage):
     file_name = fileStorage.filename
     allow_file = allowed_file(file_name)
+
+    path = tmpPath()
 
     if allow_file == True:
         fileStream = fileStorage.stream.read()
 
         doc = fitz.open(stream=fileStream, filetype='pdf')
 
-        doc.save(tmpPath)
+        doc.save(path)
 
         file_name = secure_filename(file_name)
 

@@ -2,59 +2,70 @@ import re
 
 """ PDF could have 612x792 dimensions.
 
-The horizontal center would be: 306
+The horizontal center would be: 303
+Y values are 11 apart.
 """
 
 
 class Header():
-    def __init__(self, headerText, pageNumberText, pageNumberInDoc, title):
+
+    """
+    Grab the necessary values first.
+
+    Then set the header values we will need to set the header.
+    """
+
+    def __init__(self, form, pages, title):
+        headerText = form['headerText']
+        pageNumberText = pages['pageNumberText']
+        pageNumberInDoc = pages['pageNumberInDoc']
+
         self.pageNumberText = pageNumberText
         self.pageNumberInDoc = pageNumberInDoc
         self.headerText = headerText
-        self.lines = self.setLines(pageNumberText, title)
+        self.lines = self.setLines(title)
 
-    # Set the x position based on the length of the pageNumber
-    def setX(self, text):
-        length_of_text = len(text)
-        return 306 - length_of_text - 1
+    """
+    Set the y position based on the position.
 
-    # Set the y position probably based on the position.
+    ** THIS IS NOT IMPLEMENETED YET **
+    """
+
     def setY(self):
         return 33
 
-    # Figure out how many lines of pageNumber.
-    # Figure out each lines position.
-    def setLines(self, pageNumberText, title):
+    """
+    Grabs the page number then formats it.
+    If there is a title, we set the title as the second line.
+    """
+
+    def setLines(self, title):
         lines = []
+        pageNumberText = self.pageNumberText
+        pageNumberFormatted = self.create_number_with_format(
+            str(pageNumberText), self.headerText)
+        line = {'text': pageNumberFormatted, 'y': 22}
+        lines.append(line)
 
-        if title == None:
-            # Set only page number.
-            x = self.setX(str(pageNumberText))
-
-            pageNumberFormatted = self.create_number_with_format(
-                str(pageNumberText), self.headerText)
-            line = {'text': pageNumberFormatted, 'x': x, 'y': 33}
-            lines.append(line)
-        else:
-            # Configure page number and title.
+        # Set title if it exists.
+        if title != None:
             text = title['title']
-            x = self.setX(str(pageNumberText))
-            pageNumberFormatted = self.create_number_with_format(
-                str(pageNumberText), self.headerText)
-            line = {'text': pageNumberFormatted, 'x': x, 'y': 33}
-            lines.append(line)
-            x = self.setX(text)
-            line = {'text': text, 'x': x, 'y': 43}
+            line = {'text': text, 'y': 33}
             lines.append(line)
 
         return lines
 
-    def create_number_with_format(self, number, form):
+    """
+    Keeps the prepend and append text but replaces
+    the number between the arrows.
+    """
+
+    def create_number_with_format(self, number, format1):
         pattern = r'<<\d+>>'
         double_back_arrow = r'<<'
         double_front_arrow = r'>>'
         replacement = '<<%s>>' % number
-        new_number = re.sub(pattern, replacement, form)
+        new_number = re.sub(pattern, replacement, format1)
         new_number = re.sub(double_back_arrow, '', new_number)
         new_number = re.sub(double_front_arrow, '', new_number)
         return new_number
