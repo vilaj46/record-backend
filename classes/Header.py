@@ -49,7 +49,7 @@ class Header():
 
         # Set title if it exists.
         if title != None:
-            text = title['title']
+            text = title['entry']
             line = {'text': text, 'y': 33}
             lines.append(line)
 

@@ -3,7 +3,7 @@
 from utils.misc.is_number import is_number
 
 
-def update_toc_entry_route(id_number, request):
+def update_toc_entry_route(idNumber, request):
     new_entries = FILE.entries
     potential_index = False
     potential_entry = False
@@ -13,16 +13,16 @@ def update_toc_entry_route(id_number, request):
         potential_entry = new_entries[potential_index]
     except:
         # Fake an entry so we fail the if else statement below.
-        potential_entry = {'id_number': -1}
+        potential_entry = {'idNumber': -1}
 
     index_of_updated = False
     updated_entry = False
-    if potential_entry['id_number'] == int(id_number):
+    if potential_entry['idNumber'] == int(idNumber):
         index_of_updated = potential_index
     else:
         for i in range(len(new_entries)):
             current_entry = new_entries[i]
-            if current_entry['id_number'] == int(id_number):
+            if current_entry['idNumber'] == int(idNumber):
                 index_of_updated = i
                 updated_entry = current_entry
                 break

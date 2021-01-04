@@ -10,12 +10,12 @@ def create_titles_list_obj(titles):
     obj = {}
 
     for title in titles:
-        titleLen = len(title['title'])
-        pageNumberLen = len(title['pageNumber'])
+        titleLen = len(title['entry'])
+        pageNumberLen = len(str(title['pageNumberInPdf']))
 
         # Will only add the title if we have a text and page number.
         if titleLen > 0 and pageNumberLen > 0:
-            pageNumber = title['pageNumber']
+            pageNumber = title['pageNumberInPdf']
             obj[pageNumber] = title
 
     return obj

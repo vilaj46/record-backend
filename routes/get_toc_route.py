@@ -1,41 +1,51 @@
 import fitz
-# from classes.File import FILE
+from werkzeug.utils import secure_filename
 
 from utils.get_toc_route.unify_dots import unify_dots
 from utils.get_toc_route.remove_new_lines import remove_new_lines
 from utils.get_toc_route.get_entries_from_page import get_entries_from_page
-from utils.get_toc_route.set_certification_page_number import set_certification_page_number
+from utils.misc.tmpToc import tmpToc
+from utils.misc.allowed_file import allowed_file
+
 # \xc2\xa7 = §
 
 # If our entries / page_numbers are not equal,
 # gather the entire text then try and find the entries.
 
 
-def get_toc_route():
-    # doc = FILE.doc
-    file_path = 'C:\\Users\\Julian\\Desktop\\record_server\\toc.pdf'
-    doc = fitz.open(file_path)
+def get_toc_route(fileStorage):
+    fileName = fileStorage.filename
+    allowFile = allowed_file(fileName)
 
-    entries = []
+    if allowFile == True:
+        tmpPath = tmpToc()
+        fileStream = fileStorage.stream.read()
 
-    for i in range(doc.pageCount):
-        page = doc.loadPage(i)
-        text = page.getText()
-        text = text.encode("utf-8")
+        doc = fitz.open(stream=fileStream, filetype='pdf')
 
-        text = str(text)
-        text_without_dots = unify_dots(text)
-        text_without_new_lines = remove_new_lines(text_without_dots)
+        doc.save(tmpPath)
 
-        entries_per_page = get_entries_from_page(
-            text_without_new_lines, i, doc.pageCount)
-        entries += entries_per_page
-    FILE.entries = entries
-    FILE.difference_in_page_numbers = entries[0]['page_num_for_me'] - \
-        entries[0]['page_num_in_pdf']
+        fileName = secure_filename(fileName)
 
-    set_certification_page_number()
+        entries = []
 
-    return {
-        'entries': entries
-    }
+        for i in range(doc.pageCount):
+            page = doc.loadPage(i)
+            text = page.getText()
+            text = text.encode("utf-8")
+
+            text = str(text)
+            textWithoutDots = unify_dots(text)
+            textWithoutLines = remove_new_lines(textWithoutDots)
+
+            entriesPerPage = get_entries_from_page(
+                textWithoutLines, i, doc.pageCount)
+            entries += entriesPerPage
+            # difference = entries[0]['pageNumberForMe'] - \
+            #     entries[0]['pageNumberInPdf']
+
+        return {
+            'entries': entries
+        }
+    else:
+        return {}

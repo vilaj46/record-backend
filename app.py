@@ -33,12 +33,12 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    upload_data = upload_route(request.files['file'])
-    upload_data_keys = upload_data.keys()
-    if len(upload_data_keys) == 0:
+    uploadData = upload_route(request.files['file'])
+    uploadDataKeys = uploadData.keys()
+    if len(uploadDataKeys) == 0:
         return 'Bad request!', 400
     else:
-        return upload_data
+        return uploadData
 
 
 # @app.route('/toc', methods=['GET', 'POST'])
@@ -70,8 +70,8 @@ def headers():
 
 @app.route('/toc', methods=['POST'])
 def toc():
-    #
-    return {}
+    uploadedToc = get_toc_route(request.files['file'])
+    return uploadedToc
 
 
 app.run(host='localhost', port=8080, debug=True)

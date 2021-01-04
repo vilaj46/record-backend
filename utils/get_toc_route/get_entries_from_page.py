@@ -9,12 +9,12 @@ from utils.misc.is_number import is_number
 
 from classes.TOCEntry import TOCEntry
 
-def get_entries_from_page(page_text, page_num, total_toc_pages):
 
+def get_entries_from_page(page_text, page_num, total_toc_pages):
     page_text = page_text.strip()
 
     split_text_entries = re.split(r'\s{1,}>\s{1,}\d+ ', page_text)
-    split_text_numbers =re.split(r'\s{1,}>', page_text)
+    split_text_numbers = re.split(r'\s{1,}>', page_text)
 
     page_numbers = find_page_numbers(split_text_numbers)
 
@@ -30,7 +30,8 @@ def get_entries_from_page(page_text, page_num, total_toc_pages):
         twenty_105 = contains_2105(split_text_entries[cert_index])
         split_text_entries = split_text_entries[0:cert_index]
         if twenty_105 == True:
-            split_text_entries.append('Certification Pursuant to CPLR Rule 2105')
+            split_text_entries.append(
+                'Certification Pursuant to CPLR Rule 2105')
 
     fixed_entries = []
     for i in range(len(split_text_entries)):
@@ -49,8 +50,9 @@ def get_entries_from_page(page_text, page_num, total_toc_pages):
         page_number_in_pdf = page_numbers[i]
         new_toc_entry = TOCEntry(entry, page_number_in_pdf, total_toc_pages)
         entry_objects.append(new_toc_entry.data)
-        
+
     return entry_objects
+
 
 def remove_roman_numeral(entry, page):
     romans = get_romans()
@@ -69,7 +71,6 @@ def remove_roman_numeral(entry, page):
         return entry
 
 
-
 def find_page_numbers(entries):
     page_numbers = []
     for entry in entries:
@@ -81,5 +82,3 @@ def find_page_numbers(entries):
             page_numbers.append(potential_number)
 
     return page_numbers
-
-
