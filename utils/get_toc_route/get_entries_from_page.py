@@ -45,6 +45,7 @@ def get_entries_from_page(page_text, page_num, total_toc_pages):
             fixed_entries.append(entry)
 
     entry_objects = []
+
     for i in range(len(fixed_entries)):
         entry = fixed_entries[i]
         page_number_in_pdf = page_numbers[i]

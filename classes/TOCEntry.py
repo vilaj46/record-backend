@@ -20,13 +20,14 @@ class TOCEntry:
             path = tmpPath()
             doc = fitz.open(path)
 
-            if self.data['pageNumberForMe'] > doc.pageCount:
+            if self.data['pageNumberInPdf'] > doc.pageCount:
                 self.data['pageNumberError'] = True
 
             doc.close()
 
     def default_values(self):
         idNumber = random.randrange(1000000)
+
         return {
             'entry': '',  # String
             'originalText': '',  # String

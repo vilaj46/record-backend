@@ -8,6 +8,7 @@ from utils.misc.tmpToc import tmpToc
 from utils.misc.allowed_file import allowed_file
 
 # \xc2\xa7 = §
+# \xe2\x80\x99 = '
 
 # If our entries / page_numbers are not equal,
 # gather the entire text then try and find the entries.

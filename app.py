@@ -18,8 +18,9 @@ UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-# Import Table of Contents.
 # Set page ranges for the titles and the ability to format it.
+# Figure out how to update headers.
+# Add page range formatting.
 # Error handling / prevention.
 # Check if headers on the page already.
 # Fix page number right click on the front end.
