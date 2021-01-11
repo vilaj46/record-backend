@@ -18,9 +18,12 @@ UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
-# Set page ranges for the titles and the ability to format it.
-# Figure out how to update headers.
-# Add page range formatting.
+# TitleList / TitleItem needs a lot of cleaning.
+# Hitting ok with no headers selected gets an error.
+#   Check whether changes have been made to the headers.
+#   If they have we can use the new blob.
+#   If they have not just close the modal.
+
 # Error handling / prevention.
 # Check if headers on the page already.
 # Fix page number right click on the front end.

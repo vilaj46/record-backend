@@ -26,10 +26,10 @@ def all_pages(form, titlesObject):
             # if there is no key associated with the page number.
             # currentPageNumberString = str(currentPageNumber)
             title = titlesObject[currentPageNumber]
-            header = Header(form, pages, title)
+            header = Header(form, pages, title, True)
         except:
             # There is not a title on this page.
-            header = Header(form, pages, None)
+            header = Header(form, pages, None, True)
 
         headers.append(header)
 

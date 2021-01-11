@@ -15,11 +15,13 @@ class Header():
     Then set the header values we will need to set the header.
     """
 
-    def __init__(self, form, pages, title):
+    def __init__(self, form, pages, title, includePageNumber):
         headerText = form['headerText']
         pageNumberText = pages['pageNumberText']
         pageNumberInDoc = pages['pageNumberInDoc']
 
+        self.form = form
+        self.includePageNumber = includePageNumber
         self.pageNumberText = pageNumberText
         self.pageNumberInDoc = pageNumberInDoc
         self.headerText = headerText
@@ -44,13 +46,20 @@ class Header():
         pageNumberText = self.pageNumberText
         pageNumberFormatted = self.create_number_with_format(
             str(pageNumberText), self.headerText)
-        line = {'text': pageNumberFormatted, 'y': 22}
-        lines.append(line)
+
+        if self.includePageNumber:
+            line = {'text': pageNumberFormatted, 'y': 22}
+            lines.append(line)
 
         # Set title if it exists.
         if title != None:
             text = title['entry']
-            line = {'text': text, 'y': 33}
+            line = {}
+
+            if self.includePageNumber:
+                line = {'text': text, 'y': 33}
+            else:
+                line = {'text': text, 'y': 22}
             lines.append(line)
 
         return lines
