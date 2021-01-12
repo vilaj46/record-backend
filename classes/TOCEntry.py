@@ -14,8 +14,7 @@ class TOCEntry:
 
         if pageNumberInPdf != False:
             self.data['pageNumberInPdf'] = int(pageNumberInPdf)
-            self.data['pageNumberForMe'] = int(
-                pageNumberInPdf) + int(total_toc_pages)
+            self.data['pageNumberForMe'] = int(pageNumberInPdf) - 1
 
             path = tmpPath()
             doc = fitz.open(path)

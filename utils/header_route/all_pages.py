@@ -25,7 +25,7 @@ def all_pages(form, titlesObject):
             # The error will catch in the title assignment
             # if there is no key associated with the page number.
             # currentPageNumberString = str(currentPageNumber)
-            title = titlesObject[currentPageNumber]
+            title = titlesObject[str(currentPageNumber)]
             header = Header(form, pages, title, True)
         except:
             # There is not a title on this page.

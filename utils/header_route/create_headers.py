@@ -21,7 +21,6 @@ def create_headers(form):
     titlesListToJson = json.loads(titlesList)
 
     titlesObject = create_titles_list_obj(titlesListToJson)
-
     headers = {}
 
     if rangeValue == 'All':

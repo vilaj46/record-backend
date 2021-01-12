@@ -15,7 +15,7 @@ def create_titles_list_obj(titles):
 
         # Will only add the title if we have a text and page number.
         if titleLen > 0 and pageNumberLen > 0:
-            pageNumber = title['pageNumberInPdf']
+            pageNumber = str(title['pageNumberInPdf'])
             obj[pageNumber] = title
 
     return obj

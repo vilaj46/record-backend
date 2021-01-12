@@ -1,7 +1,5 @@
-import fitz
 import json
 
-from utils.misc.tmpPath import tmpPath
 from classes.Header import Header
 
 """
@@ -11,14 +9,11 @@ Set the headers / titles.
 
 
 def pages_from(form, titlesObject):
-    path = tmpPath()
     currentPageNumber = int(form['startingPageNumber'])
 
     pageRange = json.loads(form['pageRange'])
     start = int(pageRange['start'])
     end = int(pageRange['end'])
-
-    doc = fitz.open(path)
 
     headers = []
 
@@ -34,12 +29,10 @@ def pages_from(form, titlesObject):
             header = Header(form, pages, title, True)
         except:
             # There is not a title on this page.
-            header = Header(form, pages, None)
+            header = Header(form, pages, None, True)
 
         headers.append(header)
 
         currentPageNumber = currentPageNumber + 1
-
-    doc.close()
 
     return headers

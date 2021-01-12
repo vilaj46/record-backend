@@ -56,6 +56,8 @@ class Header():
             text = title['entry']
             line = {}
 
+            print(title)
+
             if self.includePageNumber:
                 line = {'text': text, 'y': 33}
             else:
